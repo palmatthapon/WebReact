@@ -11,7 +11,7 @@ function App() {
         </header>
         
         <p className="App-intro">
-          How to play
+          High score
         </p>
       </div>
   );
