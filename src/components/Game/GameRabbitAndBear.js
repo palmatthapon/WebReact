@@ -1,4 +1,5 @@
 import React from 'react';
+import {Row, Col, Button,Container} from 'react-bootstrap';
 
 class GameRabbitAndBear extends React.Component {
     
@@ -6,7 +7,8 @@ class GameRabbitAndBear extends React.Component {
         super(props);
         this.state = {
           score: 0,
-          time: {}, seconds: 5,
+          gameTimer:1,
+          time: {}, seconds: 30,
         };
         this.rabbitSlot =0;
         this.tableRan = 0;
@@ -18,6 +20,7 @@ class GameRabbitAndBear extends React.Component {
         this.timer = 0;
         this.startTimer = this.startTimer.bind(this);
         this.countDown = this.countDown.bind(this);
+        this.StartButton = 'Start';
       }
 
       secondsToTime(secs){
@@ -45,45 +48,44 @@ class GameRabbitAndBear extends React.Component {
       startTimer() {
         if (this.timer === 0 && this.state.seconds > 0) {
           this.timer = setInterval(this.countDown, 1000);
+          this.StartButton = 'Restart';
         }else{
-          this.setState({ score: 0,seconds:5 });
+          this.StartButton = 'Start';
+          this.setState({ score: 0,seconds:30 ,gameTimer:1});
+          this.timer = 0;
         }
       }
     
       countDown() {
         // Remove one second, set state so a re-render happens.
         let seconds = this.state.seconds - 1;
+        let gameTimer = this.state.gameTimer - 1;
         this.setState({
           time: this.secondsToTime(seconds),
-          seconds: seconds,
+          seconds: seconds,gameTimer: gameTimer
         });
+
+        if(gameTimer ===0){
+          this.NextRound();
+        }
         
         // Check if we're at zero.
         if (seconds === 0) { 
-          //clearInterval(this.timer);
-          this.NextRound();
-        }
-      }
-
-      Continue(){
-        if (this.timer === 0 && this.state.seconds > 0) {
-          this.timer = setInterval(this.countDown, 1000);
+          clearInterval(this.timer);
+          //alert('Your high score:'+this.state.score);
         }
       }
 
       NextRound(){
         this.RandomImage();
-        let seconds = 5;
+        let gameTimer = 5;
           this.setState({
-            time: this.secondsToTime(seconds),
-            seconds: seconds,
+            gameTimer: gameTimer,
           });
-          this.Continue();
       }
 
       RabbitClick=()=>{
-        //alert('Hello!'+this.state.count);
-        if(this.timer === 0)
+        if(this.state.seconds === 0)
           return;
         if(this.tableRan ===1)
           this.rabbitSlot = 1;
@@ -95,8 +97,7 @@ class GameRabbitAndBear extends React.Component {
         this.NextRound();
       } 
       BearClick=()=>{
-        //alert('Hello!'+this.state.count);
-        if(this.timer === 0)
+        if(this.state.seconds === 0)
           return;
         if(this.tableRan ===0)
           this.bearSlot = 1;
@@ -113,7 +114,6 @@ class GameRabbitAndBear extends React.Component {
         const max = 10;
         var ran =min + (Math.floor(Math.random() * (max - min)));
         ran = ran%2===0?0:1;
-        //this.setState({random: ran});
         this.tableRan = ran;
         if(ran === 0){
           if(this.tableSlot===1){
@@ -135,20 +135,28 @@ class GameRabbitAndBear extends React.Component {
         return (
           
             <div>
-            <button onClick={this.startTimer}>Start</button>
+            <Button variant="warning" onClick={this.startTimer}>{this.StartButton}</Button>
             <h1 id='score'>Score: {this.state.score} </h1>
-            <h1 >Time: m: {this.state.time.m} s: {this.state.time.s}</h1>
+            <h1 >Time: {this.state.time.s}</h1>
             <h1>{this.state.animationCount}</h1>
-            <table id='students'>
+            <Container>
+              <Row>
+                <Col>
+                  <img src={process.env.PUBLIC_URL + this.rabbitImage[this.rabbitSlot]} alt="rabbit" width='100%' onClick={this.RabbitClick} />
+                  </Col>
+                  <Col>
+                  <img src={process.env.PUBLIC_URL + this.tableImage[this.tableSlot]} alt="table" width='100%' />
+                  </Col>
+                  <Col>
+                  <img src={process.env.PUBLIC_URL + this.bearImage[this.bearSlot]} alt="bear" width='100%'  onClick={this.BearClick} />
+                </Col>
+              </Row>
+            </Container>
+            <table id='game'>
                <tbody>
-               <img src={process.env.PUBLIC_URL + this.rabbitImage[this.rabbitSlot]} alt="rabbit" width={500} mode='fit' onClick={this.RabbitClick} />
-               <img src={process.env.PUBLIC_URL + this.tableImage[this.tableSlot]} alt="table" width={500} mode='fit'/>
-               <img src={process.env.PUBLIC_URL + this.bearImage[this.bearSlot]} alt="bear" width={500} mode='fit' onClick={this.BearClick} />
                </tbody>
                <tbody>
                </tbody>
-            
-              
             </table>
             </div>
             )

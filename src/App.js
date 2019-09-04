@@ -1,7 +1,7 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import GameRabbitAndBear from './components/GameRabbitAndBear';
+import GameRabbitAndBear from './components/Game/GameRabbitAndBear';
+import HighScore from './components/Game/HighScore';
 
 function App() {
   return (
@@ -9,10 +9,7 @@ function App() {
         <header className="App-header">
           <GameRabbitAndBear></GameRabbitAndBear>
         </header>
-        
-        <p className="App-intro">
-          High score
-        </p>
+        <HighScore></HighScore>
       </div>
   );
 }
