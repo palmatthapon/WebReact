@@ -2,6 +2,10 @@
   "name": "hello-react",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "npm": "5.7.1",
+    "node": "9.5.0"
+  },
   "dependencies": {
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
