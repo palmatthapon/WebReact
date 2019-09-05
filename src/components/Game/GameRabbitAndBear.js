@@ -73,6 +73,7 @@ class GameRabbitAndBear extends React.Component {
         if (seconds === 0) { 
           clearInterval(this.timer);
           //alert('Your high score:'+this.state.score);
+          this.props.addScore(this.state.score);
         }
       }
 
@@ -131,12 +132,10 @@ class GameRabbitAndBear extends React.Component {
       }
       
 	render() {
-        
         return (
-          
             <div>
             <Button variant="warning" onClick={this.startTimer}>{this.StartButton}</Button>
-            <h1 id='score'>Score: {this.state.score} </h1>
+            <h1 id='score'>Score: {this.state.score} passing:{this.props.score} </h1>
             <h1 >Time: {this.state.time.s}</h1>
             <h1>{this.state.animationCount}</h1>
             <Container>

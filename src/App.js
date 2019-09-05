@@ -4,10 +4,15 @@ import GameRabbitAndBear from './components/Game/GameRabbitAndBear';
 import MessageList from './components/MessageList';
 import MessageBox from './components/MessageBox';
 import firebase from 'firebase';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as scoreActions from './actions/score'
+import * as personActions from './actions/person'
 
 class App extends React.Component {
   constructor(props){
     super(props);
+    
     var firebaseConfig = {
       apiKey: "AIzaSyCW11KXPoRVP531XKovOcrw9yRYbg-gQPk",
       authDomain: "webgamereact.firebaseapp.com",
@@ -19,21 +24,31 @@ class App extends React.Component {
     };
   firebase.initializeApp(firebaseConfig);
   }
+
+
   render() {
+    
     return (
       <div className="App">
           <header className="App-header">
             <GameRabbitAndBear></GameRabbitAndBear>
           </header>
-          <div >
-            <MessageBox db={firebase}></MessageBox>
-          </div>
+          <h1>check Score:{JSON.stringify(this.props.score)}</h1>
+          { this.props.score>0 ? <MessageBox db={firebase} value={this.props.score}></MessageBox> : null }
           <div>
-            <MessageList db={firebase}></MessageList>
+            <MessageList db={firebase} ></MessageList>
           </div>
         </div>
       );
     } 
 }
 
-export default App;
+const mapStateToProps = state => ({
+  score: state.score
+});
+
+const mapDispatchToProps = dispatch => ({
+  scoreActions: bindActionCreators(scoreActions, dispatch)
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);

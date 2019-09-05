@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import trim from 'trim';
+//import trim from 'trim';
 import {Form,Button, Col, Row,Container} from 'react-bootstrap';
 
 class MessageBox extends Component {
@@ -8,8 +8,8 @@ class MessageBox extends Component {
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.state = {
-            number:'',
-            message: ''
+            message: '',
+            score: ''
         };
       }
     
@@ -24,12 +24,12 @@ class MessageBox extends Component {
           e.preventDefault();
           let dbCon = this.props.db.database().ref('/messages');
           dbCon.push({
-            number: 10,
-            message: this.state.message
+            message: this.state.message,
+            score: this.state.score
           });
           this.setState({
-              number:'',
-                message: ''
+                message: '',
+                score:''
           });
           alert("submit success");
         }
@@ -37,15 +37,19 @@ class MessageBox extends Component {
 
 
   render() {
+    const { value } = this.props
+    this.setState({
+      score: value
+    });
     return (
         <div>
-<Container>
+    <Container>
         <Row>
             <Col></Col>
             <Col xs={5}>
                   <Form onSubmit={this.onSubmit}>
                             <Form.Group controlId="formBasicName">
-                                <Form.Label>Your score: 10</Form.Label>
+                                <Form.Label>Your score: {JSON.stringify(value)} => {this.state.score}</Form.Label>
                                 <Form.Control type="name" placeholder="Enter name" onChange={this.onChange} value={this.state.message}/>
                                 <Form.Text className="text-muted">
                                 Your name and score'll show on scoreboard.

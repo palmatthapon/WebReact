@@ -5,8 +5,16 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Footer from './components/Footer/Footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import reducer from './reducers'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const store = createStore(reducer)
+
+ReactDOM.render(
+    <Provider store={store}>
+        <App/>
+    </Provider>, document.getElementById('root'));
 ReactDOM.render(<Footer />, document.getElementById('footer'));
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

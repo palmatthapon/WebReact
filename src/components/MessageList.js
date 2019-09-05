@@ -7,7 +7,7 @@ class MessageList extends Component {
   constructor(props){
     super(props);
     this.state  = {
-      messages: []
+      person: []
     }
     let app = this.props.db.database().ref('messages');
     app.on('value', snapshot => {
@@ -24,19 +24,22 @@ class MessageList extends Component {
                       return cloned;
                     }).value();
     this.setState({
-      messages: messages
+      person: messages
     });
   }
   render(){
-    let messageNodes = this.state.messages.map((message) => {
-        return (
+    const { onAddScore } = this.props
+    let  count =1;
+    const  personSort = [].concat(this.state.person).sort((a, b) => b.score - a.score)
+    //this.props.personActions.addPerson(personSort);
+    const  personNodes = personSort.map((person) =>
             <tr>
-              <td>{message.number}</td>
-              <td>{message.message}</td>
-              <td>{message.message}<Message  msgKey={message.key} msg = {message.message} db={this.props.db}></Message></td>
+              <td>{count++}</td>
+              <td>{person.message}<button onClick={onAddScore}>add</button></td>
+              <td>{person.score}<Message  msgKey={person.key} msg = {person.message} db={this.props.db}></Message></td>
             </tr>
-        )
-      });
+      );
+    
       return (
         <div>
             <p className="">
@@ -51,11 +54,12 @@ class MessageList extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                {messageNodes}
+                {personNodes}
                 </tbody>
             </Table>
         </div>
       );
   }
 }
+
 export default MessageList

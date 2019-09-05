@@ -1,9 +1,5 @@
 import React, {Component} from 'react';
 
-var deleteBtnStyle = {
-  float:"right"
-}
-
 class Message extends Component {
   constructor(props){
     super(props);
@@ -19,11 +15,9 @@ class Message extends Component {
     return (
       <div>
         {this.props.message}
-          <a style={deleteBtnStyle} 
-           className="button is-danger"
-           onClick={this.onClickDelete}>
+          <button onClick={this.onClickDelete}>
           Delete
-        </a>
+        </button>
       </div>
     )
   }
