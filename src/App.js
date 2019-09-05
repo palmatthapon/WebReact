@@ -6,13 +6,11 @@ import MessageBox from './components/MessageBox';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as scoreActions from './actions/score'
-import * as personActions from './actions/person'
 
 class App extends React.Component {
   constructor(props){
     super(props);
-    
+
     var firebaseConfig = {
       apiKey: "AIzaSyCW11KXPoRVP531XKovOcrw9yRYbg-gQPk",
       authDomain: "webgamereact.firebaseapp.com",
@@ -26,29 +24,20 @@ class App extends React.Component {
   }
 
 
+
   render() {
-    
     return (
       <div className="App">
           <header className="App-header">
-            <GameRabbitAndBear></GameRabbitAndBear>
+            <GameRabbitAndBear score={this.props.score}></GameRabbitAndBear>
           </header>
-          <h1>check Score:{JSON.stringify(this.props.score)}</h1>
+          <h1>check Score:{this.props.score}</h1>
           { this.props.score>0 ? <MessageBox db={firebase} value={this.props.score}></MessageBox> : null }
           <div>
-            <MessageList db={firebase} ></MessageList>
+            <MessageList db={firebase} score={this.props.score} ></MessageList>
           </div>
         </div>
       );
     } 
 }
-
-const mapStateToProps = state => ({
-  score: state.score
-});
-
-const mapDispatchToProps = dispatch => ({
-  scoreActions: bindActionCreators(scoreActions, dispatch)
-})
-
-export default connect(mapStateToProps,mapDispatchToProps)(App);
+export default (App);

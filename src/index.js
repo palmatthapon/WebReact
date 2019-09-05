@@ -5,11 +5,12 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import Footer from './components/Footer/Footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { createStore } from 'redux'
+import { createStore , applyMiddleware} from 'redux'
 import { Provider } from 'react-redux'
-import reducer from './reducers'
+import rootReducer from './reducers'
+import logger from 'redux-logger'
 
-const store = createStore(reducer)
+const store = createStore(rootReducer,applyMiddleware(logger))
 
 ReactDOM.render(
     <Provider store={store}>

@@ -28,14 +28,13 @@ class MessageList extends Component {
     });
   }
   render(){
-    const { onAddScore } = this.props
     let  count =1;
     const  personSort = [].concat(this.state.person).sort((a, b) => b.score - a.score)
     //this.props.personActions.addPerson(personSort);
     const  personNodes = personSort.map((person) =>
             <tr>
               <td>{count++}</td>
-              <td>{person.message}<button onClick={onAddScore}>add</button></td>
+              <td>{person.message}</td>
               <td>{person.score}<Message  msgKey={person.key} msg = {person.message} db={this.props.db}></Message></td>
             </tr>
       );
@@ -43,7 +42,7 @@ class MessageList extends Component {
       return (
         <div>
             <p className="">
-                High score
+                High score {this.props.score}
             </p>
             <Table responsive>
                 <thead>
