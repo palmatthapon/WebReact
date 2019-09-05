@@ -152,12 +152,6 @@ class GameRabbitAndBear extends React.Component {
                 </Col>
               </Row>
             </Container>
-            <table id='game'>
-               <tbody>
-               </tbody>
-               <tbody>
-               </tbody>
-            </table>
             </div>
             )
 	}
