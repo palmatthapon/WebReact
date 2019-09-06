@@ -6,7 +6,7 @@ render(){
     return(
         <div className="Footer">
             <a href='https://github.com/palmatthapon/WebReact'>
-                <img src={process.env.PUBLIC_URL +'/github-logo.png'} alt='github' width={32} mode='fit'></img>
+                <img src={process.env.PUBLIC_URL +'/github-logo.png'} alt='github' width={32} mode='fit'></img><p>Source Code</p>
             </a>
         </div>
     )

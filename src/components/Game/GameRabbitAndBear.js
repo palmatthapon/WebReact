@@ -1,7 +1,8 @@
 import React from 'react';
 import {Row, Col, Button,Container} from 'react-bootstrap';
-import { addScore } from '../../actions'
+import { addScore } from '../../actions/score'
 import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
 
 class GameRabbitAndBear extends React.Component {
     
@@ -76,6 +77,7 @@ class GameRabbitAndBear extends React.Component {
         if (seconds === 0) { 
           clearInterval(this.timer);
           //alert('Your high score:'+this.state.score);
+          this.props.addScore(this.state.score);
         }
       }
 
@@ -134,7 +136,6 @@ class GameRabbitAndBear extends React.Component {
       }
       
 	render() {
-    const{score}=this.props;
         return (
             <div>
             <Button variant="warning" onClick={this.startTimer}>{this.StartButton}</Button>
@@ -154,13 +155,16 @@ class GameRabbitAndBear extends React.Component {
                 </Col>
               </Row>
             </Container>
-            <h1 id='score'>input score: {score}</h1>
             </div>
             )
 	}
 }
-function mapStateToProps(state) {
-  return { score: state.score};
+const mapStateToProps=(state,ownProps)=> {
+  return { score: state.scoreReducer.score};
 }
 
-export default connect(mapStateToProps)(GameRabbitAndBear)
+const mapDispatchToProps = dispatch => ({
+  addScore: bindActionCreators(addScore, dispatch)
+})
+
+export default connect(mapStateToProps,mapDispatchToProps)(GameRabbitAndBear)

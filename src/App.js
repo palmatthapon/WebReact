@@ -1,11 +1,10 @@
 import React from 'react';
 import './App.css';
 import GameRabbitAndBear from './components/Game/GameRabbitAndBear';
-import MessageList from './components/MessageList';
-import MessageBox from './components/MessageBox';
+import ScoreboardList from './components/Scoreboard/ScoreboardList';
+import ScoreboardBox from './components/Scoreboard/ScoreboardBox';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 
 class App extends React.Component {
   constructor(props){
@@ -29,15 +28,20 @@ class App extends React.Component {
     return (
       <div className="App">
           <header className="App-header">
-            <GameRabbitAndBear score={this.props.score}></GameRabbitAndBear>
+            <GameRabbitAndBear></GameRabbitAndBear>
           </header>
-          <h1>check Score:{this.props.score}</h1>
-          { this.props.score>0 ? <MessageBox db={firebase} value={this.props.score}></MessageBox> : null }
+          {console.warn('App props',this.props)}
+          { this.props.score>this.props.minScoreboard ? <ScoreboardBox db={firebase}></ScoreboardBox> : null }
           <div>
-            <MessageList db={firebase} score={this.props.score} ></MessageList>
+            <ScoreboardList db={firebase} ></ScoreboardList>
           </div>
         </div>
       );
     } 
 }
-export default (App);
+const mapStateToProps=(state,ownProps)=> {
+  return { score: state.scoreReducer.score,
+    minScoreboard: state.scoreReducer.minScoreboard};
+}
+
+export default connect(mapStateToProps)(App);
