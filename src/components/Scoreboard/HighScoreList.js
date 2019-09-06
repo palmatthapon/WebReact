@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import Scoreboard from './Scoreboard';
+import Score from './Score';
 import _ from 'lodash';
 import {Table} from 'react-bootstrap';
 import { connect } from 'react-redux'
 import { addMinScoreboard } from '../../actions/score'
 import { bindActionCreators } from 'redux';
 
-class ScoreboardList extends Component {
+class HighScoreList extends Component {
   constructor(props){
     super(props);
     this.state  = {
@@ -26,7 +26,7 @@ class ScoreboardList extends Component {
                       cloned.key = personKey;
                       return cloned;
                     }).value();
-    const  personSort = [].concat(personLoad).sort((a, b) => b.score - a.score)
+    const personSort = [].concat(personLoad).sort((a, b) => b.score - a.score)
     if(personSort.length>0){
       console.warn("last",personSort[personSort.length-1]);
       this.props.addMinScoreboard(personSort[personSort.length-1].score)
@@ -41,24 +41,20 @@ class ScoreboardList extends Component {
   
   render(){
     let  count =1;
-    const personNodes = this.state.person.map((person) =>
-            <tr>
-              <td>{count++}</td>
-              <td>{person.name}</td>
-              <td>{person.score}<Scoreboard  msgKey={person.key} msg = {person.name} db={this.props.db}></Scoreboard></td>
-              {count>11?this.onDelete(person.key):null} 
-              
-            </tr>
+    let personNodes = this.state.person.map((person) =>
+          <Score number = {count++}  name = {person.name} score ={person.score}>
+            {count>11?this.onDelete(person.key):null}
+          </Score>
       );
       return (
         <div>
-            <p className="">
-                Scoreboard
+            <p className="" style={{ marginTop: '25px' }}>
+                HighScores
             </p>
             <Table responsive>
                 <thead>
                     <tr>
-                    <th>#</th>
+                    <th>Rank</th>
                     <th>Name</th>
                     <th>Score</th>
                     </tr>
@@ -76,4 +72,4 @@ const mapDispatchToProps = dispatch => ({
   addMinScoreboard: bindActionCreators(addMinScoreboard, dispatch)
 })
 
-export default connect(null,mapDispatchToProps)(ScoreboardList)
+export default connect(null,mapDispatchToProps)(HighScoreList)

@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
 import GameRabbitAndBear from './components/Game/GameRabbitAndBear';
-import ScoreboardList from './components/Scoreboard/ScoreboardList';
-import ScoreboardBox from './components/Scoreboard/ScoreboardBox';
+import HighScoreList from './components/Scoreboard/HighScoreList';
+import SaveScoreBox from './components/Scoreboard/SaveScoreBox';
 import firebase from 'firebase';
 import { connect } from 'react-redux';
 
@@ -22,8 +22,6 @@ class App extends React.Component {
   firebase.initializeApp(firebaseConfig);
   }
 
-
-
   render() {
     return (
       <div className="App">
@@ -31,9 +29,9 @@ class App extends React.Component {
             <GameRabbitAndBear></GameRabbitAndBear>
           </header>
           {console.warn('App props',this.props)}
-          { this.props.score>this.props.minScoreboard ? <ScoreboardBox db={firebase}></ScoreboardBox> : null }
+          { this.props.score>this.props.minScoreboard ? <SaveScoreBox db={firebase}></SaveScoreBox> : null }
           <div>
-            <ScoreboardList db={firebase} ></ScoreboardList>
+            <HighScoreList db={firebase} ></HighScoreList>
           </div>
         </div>
       );

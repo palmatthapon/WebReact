@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { clearScore } from '../../actions/score'
 import { bindActionCreators } from 'redux';
 
-class ScoreboardBox extends Component {
+class SaveScoreBox extends Component {
     constructor(props){
         super(props);
         this.onChange = this.onChange.bind(this);
@@ -79,4 +79,4 @@ const mapDispatchToProps = dispatch => ({
   clearScore: bindActionCreators(clearScore, dispatch)
 })
 
-export default connect(mapStateToProps,mapDispatchToProps)(ScoreboardBox)
+export default connect(mapStateToProps,mapDispatchToProps)(SaveScoreBox)

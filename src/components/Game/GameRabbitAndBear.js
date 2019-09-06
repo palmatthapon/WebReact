@@ -82,10 +82,13 @@ class GameRabbitAndBear extends React.Component {
       }
 
       NextRound(){
-        this.RandomImage();
-        let gameTimer = 5;
+        const min = 1;
+        const max = 10;
+        let ran = min + (Math.floor(Math.random() * (max - min)));
+        ran = ran%2===0?0:1;
+        this.GetImage(ran);
           this.setState({
-            gameTimer: gameTimer,
+            gameTimer: 5,
           });
       }
 
@@ -114,11 +117,7 @@ class GameRabbitAndBear extends React.Component {
         this.NextRound();
       }
 
-      RandomImage(){
-        const min = 1;
-        const max = 10;
-        var ran =min + (Math.floor(Math.random() * (max - min)));
-        ran = ran%2===0?0:1;
+      GetImage(ran){
         this.tableRan = ran;
         if(ran === 0){
           if(this.tableSlot===1){
